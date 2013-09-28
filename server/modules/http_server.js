@@ -2,7 +2,7 @@ var httpServer = function() {
     var http = require('http'),
         url = require('url'),
         querystring = require('querystring'),
-        PORT = 14250,
+        PORT = 14241,
 
         start = function (tcpClients, utils) {
             function onRequest(request, response) {
@@ -26,7 +26,9 @@ var httpServer = function() {
                             clients[i].write('sms from ' + data.sender + ': ' + data.text + '\n');
                             addresses.push(clients[i].remoteAddress);
                         }
-                        utils.log('SMS sent to ' + (addresses.toString()));
+                        if(addresses.length) {
+                            utils.log('SMS sent to ' + (addresses.toString()));
+                        }
                     });
 
                     response.writeHead(200);
