@@ -1,4 +1,4 @@
 vie_wallonne
 ============
 
-A node.js server that aggregates Twitter (from Twitter stream API) and sms (from our own custom php socket, not in this repository).
+A node.js server that aggregates Twitter (from Twitter stream API) and sms (comes as a POST request sent by the software [SMS enabler](http://smsenabler.com/ "See SMS enabler website")).

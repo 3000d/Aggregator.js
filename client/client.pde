@@ -12,10 +12,9 @@ void setup() {
 }
 
 void draw() {
-}
-
-void clientEvent(Client someClient) {
-  print(client.readChar());
+  if(client.available() > 0) {
+    print(client.readChar());    
+  }
 }
 
 
