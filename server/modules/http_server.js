@@ -1,36 +1,45 @@
-var http = require('http');
-var url = require('url');
-var querystring = require('querystring');
+var httpServer = function() {
+    var http = require('http'),
+        url = require('url'),
+        querystring = require('querystring'),
+        PORT = 14250,
 
-var PORT = 14250;
+        start = function (tcpClients, utils) {
+            function onRequest(request, response) {
+                var pathname = url.parse(request.url).pathname;
+                if(pathname == '/sms_in') {
+                    var postData = "";
 
-function start(tcp, utils) {
-    function onRequest(request, response) {
-        var pathname = url.parse(request.url).pathname;
-        if(pathname == '/sms_in') {
-            var postData = "";
-            utils.log('sms received.');
-//        tcp.
+                    request.setEncoding('utf8');
 
+                    request.addListener('data', function (chunk) {
+                        postData += chunk;
+                    });
 
-            request.setEncoding('utf8');
+                    request.addListener('end', function () {
+                        var data = querystring.parse(postData);
+                        utils.log('SMS received. Sender: ' + data.sender + ' - text: ' + data.text);
 
-            request.addListener('data', function (chunk) {
-                postData += chunk;
-            });
+                        var clients = tcpClients(),
+                            addresses = [];
+                        for(var i = 0; i < clients.length; i++) {
+                            clients[i].write('sms from ' + data.sender + ': ' + data.text + '\n');
+                            addresses.push(clients[i].remoteAddress);
+                        }
+                        utils.log('SMS sent to ' + (addresses.toString()));
+                    });
 
-            request.addListener('end', function () {
-                var data = querystring.parse(postData);
-                utils.log('sender: ' + data.sender);
-                utils.log('text: ' + data.text);
-            });
+                    response.writeHead(200);
+                    response.end();
+                }
+            }
+            http.createServer(onRequest).listen(PORT);
+            utils.log('HTTP server created');
+        };
 
-            response.writeHead(200);
-            response.end();
-        }
+    return {
+        start: start
     }
-    http.createServer(onRequest).listen(PORT);
-    utils.log('HTTP server created');
-}
+}();
 
-exports.start = start;
+module.exports = httpServer;
