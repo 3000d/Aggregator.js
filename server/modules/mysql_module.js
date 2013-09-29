@@ -20,7 +20,7 @@ var mysql = function() {
             if(config.db.enable) {
                 try {
                     var query = "INSERT INTO " + config.db.table + " (type, text, sender_info, sent_dt) " +
-                        "VALUES('" + type + "', '" + data.text + "', '" + data.sender + "', NOW())";
+                        "VALUES('" + type + "', '" + utils.escapeString(data.text) + "', '" + data.sender + "', NOW())";
 
                     connection.query(query, function (err, results) {
                         if(err) {
