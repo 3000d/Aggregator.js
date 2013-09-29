@@ -27,7 +27,12 @@ var twitter = function() {
 
                     stream.on('data', function (data) {
                         var text = data.text;
-                        var username = data.user.screen_name;
+                        var username = '';
+                        try {
+                             username = data.user.screen_name;
+                        } catch(err) {
+                            utils.log('Error: could not get Twitter username');
+                        }
 
                         utils.log('Tweet received. Sender: ' + username + ' - text: ' + text);
 
