@@ -1,12 +1,23 @@
 module.exports = {
     tcp_port: 14240,
     http_port: 14241,
-    use_db: false,
     db: {
-        host: "",
-        user: "",
-        database: "",
-        password: ""
+        enable: false,
+        host: 'localhost',
+        user: 'root',
+        database: '',
+        password: '',
+        table: ''
     },
-    db_table: ''
+    twitter: {
+        enable: true,
+        credentials: {
+            consumer_key: '',
+            consumer_secret: '',
+            access_token_key: '',
+            access_token_secret: ''
+        },
+        filters: [
+        ]
+    }
 };

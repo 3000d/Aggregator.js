@@ -13,7 +13,7 @@ var tcpServer = function() {
             });
 
             server.on('error', function (err) {
-                utils.log('Error caught on tcp server: ' + err);
+                utils.log('Error caught on tcp_server server: ' + err);
             });
 
             server.on('connection', function(client) {
@@ -38,15 +38,19 @@ var tcpServer = function() {
         },
 
         sendToClients = function(data) {
-            var addresses = [];
+            try {
+                var addresses = [];
 
-            for(var i = 0; i < clients.length; i++) {
-                clients[i].write(data + '\n');
-                addresses.push(clients[i].remoteAddress);
-            }
+                for(var i = 0; i < clients.length; i++) {
+                    clients[i].write(data + '\n');
+                    addresses.push(clients[i].remoteAddress);
+                }
 
-            if(addresses.length) {
-                utils.log('SMS sent to ' + (addresses.toString()));
+                if(addresses.length) {
+                    utils.log('SMS sent to ' + (addresses.toString()));
+                }
+            } catch(err) {
+                utils.log('Error sending to clients: ' + err);
             }
         };
 
