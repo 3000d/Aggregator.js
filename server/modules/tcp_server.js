@@ -2,19 +2,20 @@
 
 var tcpServer = function() {
     var net = require('net'),
+        config = require('../config'),
+        utils = require('./utils'),
         clients = [],
 
-        start = function(tcp_port, utils) {
+        start = function() {
             var server = net.createServer();
 
 
-            server.listen(tcp_port, function() {
-                utils.log('TCP server created');
-                try {
+            server.listen(config.tcp_port, function() {
+                utils.log('TCP server created on port ' + config.tcp_port);
+            });
 
-                } catch(err) {
-                    utils.log("--- error: " + err);
-                }
+            server.on('error', function (err) {
+                utils.log('Error caught: ' + err);
             });
 
             server.on('connection', function(client) {
@@ -42,7 +43,7 @@ var tcpServer = function() {
             var addresses = [];
 
             for(var i = 0; i < clients.length; i++) {
-                clients[i].write('sms from ' + data.sender + ': ' + data.text + '\n');
+                clients[i].write(data + '\n');
                 addresses.push(clients[i].remoteAddress);
             }
 

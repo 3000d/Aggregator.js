@@ -2,8 +2,10 @@ var httpServer = function() {
     var http = require('http'),
         url = require('url'),
         querystring = require('querystring'),
+        utils = require('./utils'),
+        config = require('../config'),
 
-        start = function (http_port, sendToClients, utils) {
+        start = function (sendToClients) {
             function onRequest(request, response) {
                 var pathname = url.parse(request.url).pathname;
                 if(pathname == '/sms_in') {
@@ -25,8 +27,8 @@ var httpServer = function() {
                     response.end();
                 }
             }
-            http.createServer(onRequest).listen(http_port);
-            utils.log('HTTP server created');
+            http.createServer(onRequest).listen(config.http_port);
+            utils.log('HTTP server created on port ' + config.http_port);
         };
 
     return {
