@@ -5,7 +5,7 @@ var httpServer = function() {
         utils = require('./utils'),
         config = require('../config'),
 
-        start = function (sendToClients) {
+        start = function (sendToClients, insertIntoDB) {
             function onRequest(request, response) {
                 var pathname = url.parse(request.url).pathname;
                 if(pathname == '/sms_in') {
@@ -21,6 +21,7 @@ var httpServer = function() {
                         var data = querystring.parse(postData);
                         utils.log('SMS received. Sender: ' + data.sender + ' - text: ' + data.text);
                         sendToClients(data.sender + ": " + data.text);
+                        insertIntoDB(data);
                     });
 
                     response.writeHead(200);

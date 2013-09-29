@@ -1,8 +1,9 @@
 {
     "name": "vie-wallonne",
+    "version": "0.0.1",
     "description": "Serves user defined hashtags and SMS (Short Message Service) to TCP clients",
     "author": "RELabLiege",
     "dependencies": {
-        "mysql": "@2.0.0-alpha9"
+        "mysql": "2.0.0-alpha9"
     }
 }
