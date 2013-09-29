@@ -1,10 +1,12 @@
 module.exports = {
     tcp_port: 14240,
     http_port: 14241,
+    use_db: false,
     db: {
         host: "",
         user: "",
         database: "",
         password: ""
-    }
+    },
+    db_table: ''
 };
