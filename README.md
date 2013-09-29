@@ -21,8 +21,14 @@ SMS are coming as POST request sent by the software [SMS enabler](http://smsenab
 
 ## How to use ##
 
+### SMS ###
+
 - Send SMS with POST requests on **localhost:14241/sms_in** (where "sender" is the phone number and "text" is the message)
 - Listen to **localhost:14240** to receive tweets and SMS
+
+### Twitter ###
+
+- add your filters in `config.js`. **No '@' or '#' character !**
 
 ## Database structure ##
 
