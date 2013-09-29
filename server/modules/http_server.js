@@ -21,7 +21,7 @@ var httpServer = function() {
                         var data = querystring.parse(postData);
                         utils.log('SMS received. Sender: ' + data.sender + ' - text: ' + data.text);
                         sendToClients(data.sender + ": " + data.text);
-                        insertIntoDB(data);
+                        insertIntoDB('sms', data);
                     });
 
                     response.writeHead(200);

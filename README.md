@@ -13,11 +13,27 @@ SMS are coming as POST request sent by the software [SMS enabler](http://smsenab
 
 ## Installation ##
 1. Install [node.js](http://nodejs.org/)
-2. Launch node server : `node server/index.js`
-3. Copy config.js.dist content, create a file named `config.js` and paste the content
+2. Run `npm install` in server/ folder
+3. Copy `config.js.dist` content, create a file named `config.js` and paste the content
 4. Change parameters in `config.js`
+5. Create database (see *Database structure*) or choose not to use one in `config.js`
+6. Launch node server : `node server/index.js`
 
 ## How to use ##
 
 - Send SMS with POST requests on **localhost:14241/sms_in** (where "sender" is the phone number and "text" is the message)
 - Listen to **localhost:14240** to receive tweets and SMS
+
+## Database structure ##
+
+While there it is planned to use a more flexible database system (like mongoDB or couchDB), the database is currently managed by mysql.
+
+There is only one table used, and its structure is as such :
+
+- `id|int(10)`
+- `type|varchar(30)`
+- `text|varchar(1600)`
+- `sender_info|varchar(50)`
+- `sent_dt|datetime`
+- `status|int(3)`
+- `status_date|datetime`

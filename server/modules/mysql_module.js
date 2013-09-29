@@ -5,22 +5,25 @@ var mysql = function() {
         connection,
 
         connect = function() {
-            connection = mysql.createConnection(config.db);
-            connection.connect();
+            if(config.use_db) {
+                connection = mysql.createConnection(config.db);
+                connection.connect();
+            }
         },
 
-        insertIntoDB = function(data) {
+        insertIntoDB = function(type, data) {
+            if(config.use_db) {
+                var query = "INSERT INTO " + config.db_table + " (type, text, sender_info, sent_dt) " +
+                    "VALUES('" + type + "', '" + data.text + "', '" + data.sender + "', NOW())";
 
-            var query = "INSERT INTO " + config.db_table + " (sms_text, sender_number) " +
-                "VALUES('" + data.text + "', '" + data.sender + "')";
-
-            connection.query(query, function (err, results) {
-                if(err) {
-                    utils.log('Error inserting in DB: ' + err);
-                } else {
-                    utils.log('Data inserted into DB');
-                }
-            });
+                connection.query(query, function (err, results) {
+                    if(err) {
+                        utils.log('Error inserting in DB: ' + err);
+                    } else {
+                        utils.log('Data inserted into DB');
+                    }
+                });
+            }
         };
 
     return {
