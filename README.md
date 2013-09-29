@@ -14,6 +14,8 @@ SMS are coming as POST request sent by the software [SMS enabler](http://smsenab
 ## Installation ##
 1. Install [node.js](http://nodejs.org/)
 2. Launch node server : `node server/index.js`
+3. Copy config.js.dist content, create a file named `config.js` and paste the content
+4. Change parameters in `config.js`
 
 ## How to use ##
 
