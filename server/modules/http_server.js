@@ -19,9 +19,14 @@ var httpServer = function() {
 
                     request.addListener('end', function () {
                         var data = querystring.parse(postData);
-                        utils.log('SMS received. Sender: ' + data.sender + ' - text: ' + data.text);
-                        sendToClients(data.sender + ": " + data.text);
-                        insertIntoDB('sms', data);
+
+                        if(data.sender !== undefined && data.text !== undefined) {
+                            utils.log('SMS received. Sender: ' + data.sender + ' - text: ' + data.text);
+                            sendToClients(data.sender + ": " + data.text);
+                            insertIntoDB('sms', data);
+                        } else {
+                            utils.log('SMS received but POST parameters are undefined. Ignored.');
+                        }
                     });
 
                     response.writeHead(200);
