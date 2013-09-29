@@ -1,5 +1,3 @@
-
-
 var tcpServer = function() {
     var net = require('net'),
         config = require('../config'),
@@ -15,7 +13,7 @@ var tcpServer = function() {
             });
 
             server.on('error', function (err) {
-                utils.log('Error caught: ' + err);
+                utils.log('Error caught on tcp server: ' + err);
             });
 
             server.on('connection', function(client) {
