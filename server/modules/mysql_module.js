@@ -1,7 +1,7 @@
 var mysql = function() {
     var mysql = require('mysql'),
         utils = require('./utils'),
-        config = require('../config'),
+        config = require('../config/config'),
         connection,
 
         connect = function() {

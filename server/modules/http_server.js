@@ -3,7 +3,7 @@ var httpServer = function() {
         url = require('url'),
         querystring = require('querystring'),
         utils = require('./utils'),
-        config = require('../config'),
+        config = require('../config/config'),
 
         start = function (sendToClients, insertIntoDB) {
             function onRequest(request, response) {

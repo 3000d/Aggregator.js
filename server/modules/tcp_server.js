@@ -1,6 +1,6 @@
 var tcpServer = function() {
     var net = require('net'),
-        config = require('../config'),
+        config = require('../config/config'),
         utils = require('./utils'),
         clients = [],
 
