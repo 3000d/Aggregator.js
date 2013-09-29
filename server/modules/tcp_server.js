@@ -2,14 +2,13 @@
 
 var tcpServer = function() {
     var net = require('net'),
-        PORT = 14240,
         clients = [],
 
-        start = function(utils) {
+        start = function(tcp_port, utils) {
             var server = net.createServer();
 
 
-            server.listen(PORT, function() {
+            server.listen(tcp_port, function() {
                 utils.log('TCP server created');
                 try {
 
@@ -39,13 +38,22 @@ var tcpServer = function() {
             });
         },
 
-        getClients = function() {
-            return clients;
+        sendToClients = function(data) {
+            var addresses = [];
+
+            for(var i = 0; i < clients.length; i++) {
+                clients[i].write('sms from ' + data.sender + ': ' + data.text + '\n');
+                addresses.push(clients[i].remoteAddress);
+            }
+
+            if(addresses.length) {
+                utils.log('SMS sent to ' + (addresses.toString()));
+            }
         };
 
     return {
         start: start,
-        getClients: getClients
+        sendToClients: sendToClients
     }
 }();
 

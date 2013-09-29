@@ -2,9 +2,8 @@ var httpServer = function() {
     var http = require('http'),
         url = require('url'),
         querystring = require('querystring'),
-        PORT = 14241,
 
-        start = function (tcpClients, utils) {
+        start = function (http_port, sendToClients, utils) {
             function onRequest(request, response) {
                 var pathname = url.parse(request.url).pathname;
                 if(pathname == '/sms_in') {
@@ -19,23 +18,14 @@ var httpServer = function() {
                     request.addListener('end', function () {
                         var data = querystring.parse(postData);
                         utils.log('SMS received. Sender: ' + data.sender + ' - text: ' + data.text);
-
-                        var clients = tcpClients(),
-                            addresses = [];
-                        for(var i = 0; i < clients.length; i++) {
-                            clients[i].write('sms from ' + data.sender + ': ' + data.text + '\n');
-                            addresses.push(clients[i].remoteAddress);
-                        }
-                        if(addresses.length) {
-                            utils.log('SMS sent to ' + (addresses.toString()));
-                        }
+                        sendToClients(data.sender + ": " + data.text);
                     });
 
                     response.writeHead(200);
                     response.end();
                 }
             }
-            http.createServer(onRequest).listen(PORT);
+            http.createServer(onRequest).listen(http_port);
             utils.log('HTTP server created');
         };
 
