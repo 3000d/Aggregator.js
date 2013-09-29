@@ -8,6 +8,7 @@ lib-cov
 *.gz
 
 .idea
+config.js
 pids
 logs
 results
