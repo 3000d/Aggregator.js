@@ -19,7 +19,7 @@ var tcpServer = function() {
             server.on('connection', function(client) {
                 utils.log('client connected with IP address ' + client.remoteAddress);
 
-                client.write('--- Welcome to RElab SMS and Twitter net_server ---\n');
+                client.write('--- Welcome to RElab SMS and Twitter net server ---\n');
 
                 clients.push(client);
 

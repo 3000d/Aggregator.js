@@ -31,7 +31,7 @@ var twitter = function() {
 
                         utils.log('Tweet received. Sender: ' + username + ' - text: ' + text);
 
-                        sendToClients(username + ': ' + text);
+                        sendToClients(username + ': ' + removeFiltersFromText(text, config.twitter.filters));
                         insertIntoDB('tweet', {text: text, sender: username});
                     });
 
@@ -44,6 +44,22 @@ var twitter = function() {
                     });
                 });
             }
+        },
+
+        removeFiltersFromText = function(text, filters) {
+            for(var i = 0; i < filters.length; i++) {
+                if(text.indexOf('#' + filters[i]) != -1) {
+                    text = text.replace('#' + filters[i], '');
+                }
+                if(text.indexOf('@' + filters[i]) != -1) {
+                    text = text.replace('@' + filters[i], '');
+                }
+                if(text.indexOf(filters[i]) != -1) {
+                    text = text.replace(filters[i], '');
+                }
+            }
+
+            return text;
         };
 
     return {

@@ -28,6 +28,7 @@ var httpServer = function() {
                     response.end();
                 }
             }
+
             http.createServer(onRequest).listen(config.http_port);
             utils.log('HTTP server created on port ' + config.http_port);
         };
