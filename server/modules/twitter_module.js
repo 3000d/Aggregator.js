@@ -3,7 +3,7 @@ var twitter = function() {
         config = require('../config/config'),
         utils = require('./utils'),
 
-        start = function(sendToClients, insertIntoDB) {
+        start = function(sendToClients, sendToWeb, insertIntoDB) {
             if(config.twitter.enable) {
                 if(!config.twitter.credentials.consumer_key
                     || !config.twitter.credentials.consumer_secret
@@ -29,15 +29,22 @@ var twitter = function() {
                         var text = data.text;
                         var username = '';
                         try {
-                             username = data.user.screen_name;
+                            username = data.user.screen_name;
                         } catch(err) {
                             utils.log('Error: could not get Twitter username');
                         }
 
-                        utils.log('Tweet received. Sender: ' + username + ' - text: ' + text);
+                        if(text !== undefined) {
+                            var formattedData = {text: text, sender: username};
 
-                        sendToClients(username + ': ' + removeFiltersFromText(text, config.twitter.filters));
-                        insertIntoDB('tweet', {text: text, sender: username});
+                            utils.log('Tweet received. Sender: ' + username + ' - text: ' + text);
+
+                            sendToClients(username + ': ' + removeFiltersFromText(text, config.twitter.filters));
+                            sendToWeb(formattedData);
+                            insertIntoDB('tweet', formattedData);
+                        } else {
+                            utils.log('Tweet received but data is undefined. Ignored.');
+                        }
                     });
 
                     stream.on('end', function (response) {
@@ -52,19 +59,21 @@ var twitter = function() {
         },
 
         removeFiltersFromText = function(text, filters) {
-            for(var i = 0; i < filters.length; i++) {
-                if(text.indexOf('#' + filters[i]) != -1) {
-                    text = text.replace('#' + filters[i], '');
+            if(text !== undefined) {
+                for(var i = 0; i < filters.length; i++) {
+                    if(text.indexOf('#' + filters[i]) != -1) {
+                        text = text.replace('#' + filters[i], '');
+                    }
+                    if(text.indexOf('@' + filters[i]) != -1) {
+                        text = text.replace('@' + filters[i], '');
+                    }
+                    if(text.indexOf(filters[i]) != -1) {
+                        text = text.replace(filters[i], '');
+                    }
                 }
-                if(text.indexOf('@' + filters[i]) != -1) {
-                    text = text.replace('@' + filters[i], '');
-                }
-                if(text.indexOf(filters[i]) != -1) {
-                    text = text.replace(filters[i], '');
-                }
-            }
 
-            return text;
+                return text;
+            }
         };
 
     return {

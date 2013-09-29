@@ -1,6 +1,7 @@
 module.exports = {
-    tcp_port: 14240,
-    http_port: 14241,
+    tcp_port: '',
+    http_port: '',
+    web_port: '',
     db: {
         enable: false,
         host: 'localhost',
@@ -18,6 +19,7 @@ module.exports = {
             access_token_secret: ''
         },
         filters: [
-        ]
+        ],
+        socket_io_debug_level: 3
     }
 };
