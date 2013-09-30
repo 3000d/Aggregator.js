@@ -2,6 +2,7 @@ var twitter = function() {
     var twitter = require('ntwitter'),
         config = require('../config/config'),
         utils = require('./utils'),
+        constants = require('./constants'),
 
         start = function(sendToClients, sendToWeb, insertIntoDB) {
             if(config.twitter.enable) {
@@ -39,9 +40,9 @@ var twitter = function() {
 
                             utils.log('Tweet received. Sender: ' + username + ' - text: ' + text);
 
-                            sendToClients(username + ': ' + removeFiltersFromText(text, config.twitter.filters));
+                            sendToClients(constants.MESSAGE_TYPE.TWEET, formattedData);
+                            insertIntoDB(constants.MESSAGE_TYPE.TWEET, formattedData);
                             sendToWeb(formattedData);
-                            insertIntoDB('tweet', formattedData);
                         } else {
                             utils.log('Tweet received but data is undefined. Ignored.');
                         }

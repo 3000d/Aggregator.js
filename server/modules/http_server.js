@@ -4,6 +4,7 @@ var httpServer = function() {
         querystring = require('querystring'),
         utils = require('./utils'),
         config = require('../config/config'),
+        constants = require('./constants'),
 
         start = function (sendToClients, sendToWeb, insertIntoDB) {
             function onRequest(request, response) {
@@ -23,9 +24,9 @@ var httpServer = function() {
                         if(data.sender !== undefined && data.text !== undefined) {
                             utils.log('SMS received. Sender: ' + data.sender + ' - text: ' + data.text);
 
-                            sendToClients(data.sender + ": " + data.text);
+                            sendToClients(constants.MESSAGE_TYPE.SMS, data);
                             sendToWeb(data);
-                            insertIntoDB('sms', data);
+                            insertIntoDB(constants.MESSAGE_TYPE.SMS, data);
 
                         } else {
                             utils.log('SMS received but POST parameters are undefined. Ignored.');

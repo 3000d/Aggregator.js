@@ -2,6 +2,10 @@ module.exports = {
     tcp_port: '',
     http_port: '',
     web_port: '',
+    protocol: {
+        separator: "$|>>",
+        end_of_line: "<<|$"
+    },
     db: {
         enable: false,
         host: 'localhost',

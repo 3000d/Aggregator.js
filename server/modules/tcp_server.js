@@ -2,6 +2,7 @@ var tcpServer = function() {
     var net = require('net'),
         config = require('../config/config'),
         utils = require('./utils'),
+        constants = require('./constants'),
         clients = [],
 
         start = function() {
@@ -37,12 +38,12 @@ var tcpServer = function() {
             });
         },
 
-        sendToClients = function(data) {
+        sendToClients = function(messageType, data) {
             try {
                 var addresses = [];
 
                 for(var i = 0; i < clients.length; i++) {
-                    clients[i].write(data + '\n');
+                    clients[i].write(formatToProtocol(messageType, data));
                     addresses.push(clients[i].remoteAddress);
                 }
 
@@ -51,6 +52,25 @@ var tcpServer = function() {
                 }
             } catch(err) {
                 utils.log('Error sending to clients: ' + err);
+            }
+        },
+
+        formatToProtocol = function(messageType, data) {
+            if(data.text != undefined) {
+                if(data.text.indexOf(config.protocol.end_of_line) != -1) {
+                    data.text = data.text.replace(config.protocol.end_of_line, '');
+                }
+                if(data.text.indexOf(config.protocol.separator) != -1) {
+                    data.text = data.text.replace(config.protocol.separator, '');
+                }
+
+                return messageType ==
+                    constants.MESSAGE_TYPE.TWEET ? 1 : 0 +
+                    config.protocol.separator +
+                    data.sender +
+                    config.protocol.separator +
+                    data.text +
+                    config.protocol.end_of_line;
             }
         };
 
