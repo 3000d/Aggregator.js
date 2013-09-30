@@ -64,8 +64,8 @@ var tcpServer = function() {
                     data.text = data.text.replace(config.protocol.separator, '');
                 }
 
-                return messageType ==
-                    constants.MESSAGE_TYPE.TWEET ? 1 : 0 +
+                return "" +
+                    (messageType == constants.MESSAGE_TYPE.TWEET ? 1 : 0) +
                     config.protocol.separator +
                     data.sender +
                     config.protocol.separator +
