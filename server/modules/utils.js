@@ -6,7 +6,7 @@ var constants = require('./constants');
 module.exports = {
     log: function(logLevel, text) {
         var logDate = new Date().toString().replace(/G.*/,'').replace(/[a-zA-Z]*\ /,'');
-        var logMessage = logDate+'- '+text;
+        var logMessage = logLevel + ': ' + logDate+'- '+text;
 
         switch(logLevel) {
             case constants.log.INFO :
