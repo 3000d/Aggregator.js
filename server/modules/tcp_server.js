@@ -10,15 +10,15 @@ var tcpServer = function() {
 
 
             server.listen(config.tcp_port, function() {
-                utils.log('TCP server created on port ' + config.tcp_port);
+                utils.log(constants.log.INFO, 'TCP server created on port ' + config.tcp_port);
             });
 
             server.on('error', function (err) {
-                utils.log('Error caught on tcp_server server: ' + err);
+                utils.log(constants.log.ERROR, 'Error caught on tcp_server server: ' + err);
             });
 
             server.on('connection', function(client) {
-                utils.log('client connected with IP address ' + client.remoteAddress);
+                utils.log(constants.log.INFO, 'client connected with IP address ' + client.remoteAddress);
 
                 client.write('--- Welcome to RElab SMS and Twitter net server ---\n');
 
@@ -28,7 +28,7 @@ var tcpServer = function() {
                     for (var i = 0; i < clients.length; i++) {
                         if (clients[i] == client) {
                             clients.splice(i, 1);
-                            utils.log('Client removed. left: ' + clients.length);
+                            utils.log(constants.log.INFO, 'Client removed. left: ' + clients.length);
                             break;
                         }
                     }
@@ -48,10 +48,10 @@ var tcpServer = function() {
                 }
 
                 if(addresses.length) {
-                    utils.log('SMS sent to ' + (addresses.toString()));
+                    utils.log(constants.log.INFO, 'SMS sent to ' + (addresses.toString()));
                 }
             } catch(err) {
-                utils.log('Error sending to clients: ' + err);
+                utils.log(constants.log.ERROR, 'Error sending to clients: ' + err);
             }
         },
 
@@ -65,7 +65,7 @@ var tcpServer = function() {
                 }
 
                 return "" +
-                    (messageType == constants.MESSAGE_TYPE.TWEET ? 1 : 0) +
+                    (messageType == constants.message_type.TWEET ? 1 : 0) +
                     config.protocol.separator +
                     data.sender +
                     config.protocol.separator +

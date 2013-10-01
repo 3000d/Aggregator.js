@@ -24,7 +24,7 @@ var twitter = function() {
                     utils.throwError('Please add filters for Twitter in config.js');
 
                 twitter_server.stream('statuses/filter', {'track': config.twitter.filters}, function (stream) {
-                    utils.log('Twitter Streaming server created with filters ' + config.twitter.filters.toString());
+                    utils.log(constants.log.INFO, 'Twitter Streaming server created with filters ' + config.twitter.filters.toString());
 
                     stream.on('data', function (data) {
                         var text = data.text;
@@ -32,19 +32,19 @@ var twitter = function() {
                         try {
                             username = data.user.screen_name;
                         } catch(err) {
-                            utils.log('Error: could not get Twitter username');
+                            utils.log(constants.log.ERROR, 'Error: could not get Twitter username');
                         }
 
                         if(text !== undefined) {
                             var formattedData = {text: text, sender: username};
 
-                            utils.log('Tweet received. Sender: ' + username + ' - text: ' + text);
+                            utils.log(constants.log.INFO, 'Tweet received. Sender: ' + username + ' - text: ' + text);
 
-                            sendToClients(constants.MESSAGE_TYPE.TWEET, formattedData);
-                            insertIntoDB(constants.MESSAGE_TYPE.TWEET, formattedData);
+                            sendToClients(constants.message_type.TWEET, formattedData);
+                            insertIntoDB(constants.message_type.TWEET, formattedData);
                             sendToWeb(formattedData);
                         } else {
-                            utils.log('Tweet received but data is undefined. Ignored.');
+                            utils.log(constants.log.WARNING, 'Tweet received but data is undefined. Ignored.');
                         }
                     });
 

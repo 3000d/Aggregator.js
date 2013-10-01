@@ -2,9 +2,9 @@
  * Logging method
  * */
 module.exports = {
-    log: function(text) {
+    log: function(logLevel, text) {
         var logDate = new Date().toString().replace(/G.*/,'').replace(/[a-zA-Z]*\ /,'');
-        console.log(logDate+'- '+text);
+        console.log('\033[1; 34; 40m' + logLevel + ': ' + logDate+'- '+text);
     },
 
     throwError: function(text) {

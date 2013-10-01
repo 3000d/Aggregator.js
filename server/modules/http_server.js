@@ -21,15 +21,15 @@ var httpServer = function() {
                     request.addListener('end', function () {
                         var data = querystring.parse(postData);
 
-                        if(data.sender !== undefined && data.text !== undefined) {
-                            utils.log('SMS received. Sender: ' + data.sender + ' - text: ' + data.text);
+                        if(data.sender !== undefined || data.text !== undefined || data.sender == '' || data.sender == '') {
+                            utils.log(constants.log.INFO, 'SMS received. Sender: ' + data.sender + ' - text: ' + data.text);
 
-                            sendToClients(constants.MESSAGE_TYPE.SMS, data);
+                            sendToClients(constants.message_type.SMS, data);
                             sendToWeb(data);
-                            insertIntoDB(constants.MESSAGE_TYPE.SMS, data);
+                            insertIntoDB(constants.message_type.SMS, data);
 
                         } else {
-                            utils.log('SMS received but POST parameters are undefined. Ignored.');
+                            utils.log(constants.log.WARNING, 'SMS received but POST parameters are undefined. Ignored.');
                         }
                     });
 
@@ -39,7 +39,7 @@ var httpServer = function() {
             }
 
             http.createServer(onRequest).listen(config.http_port);
-            utils.log('HTTP server created on port ' + config.http_port);
+            utils.log(constants.log.INFO, 'HTTP server created on port ' + config.http_port);
         };
 
     return {

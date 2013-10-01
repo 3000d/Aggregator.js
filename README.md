@@ -13,7 +13,7 @@ SMS are coming as POST request sent by the software [SMS enabler](http://smsenab
 
 ## Installation ##
 1. Install [node.js](http://nodejs.org/)
-2. Run `npm install` in server/ folder
+2. Run `npm install` in *server/* folder
 3. Copy `config.js.dist` content, create a file named `config.js` and paste the content
 4. Change parameters in `config.js`
 5. Create database (see *Database structure*) or choose not to use one in `config.js`
@@ -29,6 +29,11 @@ SMS are coming as POST request sent by the software [SMS enabler](http://smsenab
 ### Twitter ###
 
 - add your filters in `config.js`. **No '@' or '#' character !**
+
+### TCP ###
+
+- connect your client to **localhost:14240**
+- Default protocol is `[type: 0(sms)-1(twitter)]&|>>[sender]&|>>[text]<<|$`. You can change the separators and the end of line characters in `config.js`
 
 ## Database structure ##
 

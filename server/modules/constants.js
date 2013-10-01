@@ -1,6 +1,11 @@
 module.exports = {
-    MESSAGE_TYPE: {
+    message_type: {
         TWEET: 'tweet',
         SMS: 'sms'
+    },
+    log: {
+        INFO: 'info',
+        WARNING: 'warning',
+        ERROR: 'error'
     }
 };
