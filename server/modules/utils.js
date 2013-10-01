@@ -1,10 +1,26 @@
+var constants = require('./constants');
+
 /*
  * Logging method
  * */
 module.exports = {
     log: function(logLevel, text) {
         var logDate = new Date().toString().replace(/G.*/,'').replace(/[a-zA-Z]*\ /,'');
-        console.log(logLevel + ': ' + logDate+'- '+text);
+        var logMessage = logDate+'- '+text;
+
+        switch(logLevel) {
+            case constants.log.INFO :
+                console.info(logMessage);
+                break;
+            case constants.log.WARNING :
+                console.warn(logMessage);
+                break;
+            case constants.log.ERROR :
+                console.error(logMessage);
+                break;
+            default :
+                console.log(logMessage);
+        }
     },
 
     throwError: function(text) {
