@@ -37,7 +37,7 @@ var tcpServer = function() {
                 });
 
                 client.on('error', function (err) {
-                    tils.log(constants.log.ERROR, 'Error caught on socket: ' + err);
+                    utils.log(constants.log.ERROR, 'Error caught on socket: ' + err);
                 });
             });
         },
