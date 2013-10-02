@@ -25,21 +25,25 @@ var tcpServer = function() {
                 clients.push(client);
 
                 client.on('end', function () {
-                    for (var i = 0; i < clients.length; i++) {
-                        if (clients[i] == client) {
-                            clients.splice(i, 1);
-                            utils.log(constants.log.INFO, 'Client removed. left: ' + clients.length);
-                            break;
-                        }
-                    }
-
+                    removeClient(client);
                     client.end();
                 });
 
                 client.on('error', function (err) {
+                    removeClient(client);
                     utils.log(constants.log.ERROR, 'Error caught on socket: ' + err);
                 });
             });
+        },
+
+        removeClient = function(client) {
+            for (var i = 0; i < clients.length; i++) {
+                if (clients[i] == client) {
+                    clients.splice(i, 1);
+                    utils.log(constants.log.INFO, 'Client removed. left: ' + clients.length);
+                    break;
+                }
+            }
         },
 
         sendToClients = function(messageType, data) {
