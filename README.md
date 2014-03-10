@@ -1,5 +1,4 @@
-Vie Wallonne 2.5
-================
+# Aggregator.js
 
 A node.js server that aggregates tweets and SMS (short text messages).
 
